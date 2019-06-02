@@ -1,0 +1,14 @@
+name: data_connection_checker
+description: Checks for an actual internet connection, by opening a socket connection to DNS Resolver addresses.
+version: 0.1.0
+homepage: https://github.com/
+author: Kristiyan Mitev
+
+environment:
+  sdk: '>=2.2.0 <3.0.0'
+
+dependencies:
+  pedantic: ^1.7.0
+
+dev_dependencies:
+  test: ^1.0.0
