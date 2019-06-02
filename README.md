@@ -10,7 +10,7 @@ Created from templates made available by Stagehand under a BSD-style
 Example:
 
 ```dart
-import 'package:data_connection_checker/dart_data_connection_checker.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 
 main() async {
   var internetChecker = DataConnectionChecker();
