@@ -36,22 +36,31 @@ class DataConnectionChecker {
   int get port => _port;
   int _port;
 
-  /// The port associated with this instance.
+  /// The timeout we should wait before a result fails.
   Duration get timeout => _timeout;
   Duration _timeout;
 
+  /// [DataConnectionChecker.addresses]
+  /// A (valid) list of DNS Resolvers to ping.
+  /// These should be globally available ping destinations.
+  /// Default is [DataConnectionChecker.DEFAULT_ADDRESSES]
+  ///
+  /// The provided addresses should be good enough to test for data connection
+  /// but you can, of course, override them in the constructor
+  ///
+  ///
+  /// [DataConnectionChecker.port]
+  /// The port to which all requests are routed.
+  /// Port should always be 53.
+  /// More info here: https://www.google.com/search?q=dns+server+port
+  ///
+  ///
+  /// [DataConnectionChecker.timeout]
+  /// The timeout we should wait before and address is deemed unreachable.
+  /// Default is 10 seconds.
   DataConnectionChecker({
-    /// A (valid) list of DNS Resolvers to ping.
-    /// These should be globally available ping destinations.
-    /// Default is [DataConnectionChecker.DEFAULT_ADDRESSES]
     List<String> addresses = DEFAULT_ADDRESSES,
-
-    /// Port should always be 53.
-    /// More info here: https://www.google.com/search?q=dns+server+port
     int port = DEFAULT_PORT,
-
-    /// The timeout we should wait before and address is deemed unreachable
-    /// Default is 10 seconds.
     Duration timeout = const Duration(seconds: 10),
   })  : _addresses = addresses.map((e) => InternetAddress(e)).toList(),
         _port = port,
@@ -59,7 +68,7 @@ class DataConnectionChecker {
 
   /// Makes a request to all of the addresses.
   /// If at least one of the addresses is reachable
-  /// this means we have an internet connection
+  /// this means we have an internet connection.
   Future<bool> get hasDataConnection async {
     // reset log message
     _lastTryLog = '';
