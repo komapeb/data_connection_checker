@@ -1,5 +1,9 @@
 ## data_connection_checker
 
+[This package is on pub.dev](https://pub.dev/packages/data_connection_checker)
+
+## Description
+
 Checks for an internet (data) connection, by opening a socket connection to DNS Resolver addresses to port 53.
 
 The defaults of the plugin should be sufficient to reliably determine if
