@@ -44,33 +44,24 @@ static const List<String> DEFAULT_ADDRESSES = [
 ];
 ```
 
-#### `DEFAULT_PORT` should always be `53`. More info here: https://www.google.com/search?q=dns+server+port
+#### `DEFAULT_PORT` should always be `53`
 
 >A DNS server listens for requests on port 53 (both UDP and TCP). So all DNS requests are sent to port 53 ...
+
+More info here: https://www.google.com/search?q=dns+server+port
+
 
 ```dart
 static const int DEFAULT_PORT = 53;
 ```
 
-#### The default timeout is 10 seconds, which can easily be overridden, when instantiating the class:
+#### The default timeout is 10 seconds, which can easily be overridden, when instantiating the class.
+
+Overriding the default timeout:
 
 ```dart
-...
-DataConnectionChecker({
-  ...
-  Duration timeout = const Duration(seconds: 10),
-  ...
-})
-...
+var _internetChecker = DataConnectionChecker(timeout: Duration(CUSTOM_TIMEOUT));
 ```
-
-
-Override the default timeout:
-
-```dart
-var _internetChecker = DataConnectionChecker(timeout: Duration([CUSTOM_TIMEOUT]));
-```
-
 
 ## Usage
 
