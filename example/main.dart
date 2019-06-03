@@ -1,6 +1,15 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:data_connection_checker/data_connection_checker.dart';
+
+
+main() {
+  //
+}
+
+
+/*
 
 // Note that this isn't the way to write code
 // You usually don't want to pollute your global scope like this
@@ -47,3 +56,4 @@ void _startCheckingPeriodically() {
 void _stopCheckingPeriodically() {
   if (_timerHandle != null) _timerHandle.cancel();
 }
+// */

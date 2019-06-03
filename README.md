@@ -9,6 +9,8 @@ Checks for an internet (data) connection, by opening a socket connection to DNS 
 The defaults of the plugin should be sufficient to reliably determine if
 the device is currently connected to the global network, e.i. has access to the Internet.
 
+>Note that you should not be using the current network status for deciding whether you can reliably make a network connection. Always guard your app code against timeouts and errors that might come from the network layer.
+
 ## Quick start:
 
 ```dart
