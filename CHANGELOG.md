@@ -1,3 +1,7 @@
+## 0.1.3
+
+- Add more info in the README
+
 ## 0.1.2
 
 - Minor refactoring

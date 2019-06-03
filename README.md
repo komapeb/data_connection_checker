@@ -23,6 +23,36 @@ if(result == true) {
 
 Once the class is instantiated, there's no way to change the addresses/port/timeout. This is by design, but I'm open to discussion, just submit an issue on the official repository page.
 
+## Purpose
+
+The reason this package exists is that `connectivity` package cannot reliably determine if a data connection is actually available. More info on its page here: https://pub.dev/packages/connectivity and here: https://stackoverflow.com/questions/49648022/check-whether-there-is-an-internet-connection-available-on-flutter-app
+
+You can use this package in combination with `connectivity` in the following way:
+
+```dart
+var isDeviceConnected = false;
+
+var internetChecker = DataConnectionChecker();
+
+var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async {
+  if(result != ConnectivityResult.none) {
+    isDeviceConnected = await internetChecker.hasDataConnection;
+  }
+});
+```
+
+*Note: remember to properly cancel the `subscription` when it's no longer needed. See `connectivity` package docs for more info.*
+
+## How it works
+
+All addresses are pinged simultaneously. On successful result (socket connection to address/port succeeds) a `true` boolean is pushed to a list, on failure (usually on timeout, default 10 sec) a `false` boolean is pushed to the same list.
+
+When all the requests complete with either success or failure, a check is made to see if the list contains at least one `true` boolean. If it does, then an external address is available, so we have data connection. If all the values in this list are `false`, then we have no connection to the outside world of cute cat and dog pictures, so `hasDataConnection()` returns `false` too.
+
+This all happens at the same time for all addresses, so the maximum waiting time is the specified timeout.
+
+I believe this a reliable method to check if a data connection is available to the device (running this code), but I may be wrong. I suggest you open an issue on the Github repository page if you have a better way.
+
 ## Defaults
 
 The defaults are based on data collected from https://perfops.net/ (https://www.dnsperf.com/#!dns-resolvers)
