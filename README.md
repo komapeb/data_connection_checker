@@ -25,11 +25,15 @@ if(result == true) {
 }
 ```
 
-Once the class is instantiated, there's no way to change the addresses/port/timeout. This is by design, but I'm open to discussion, just submit an issue on the official repository page.
+You can specify different addresses/port/timeout when you instantiate the class, but when it's instantiated, there's no way to change the addresses/port/timeout. This is by design, but I'm open to discussion, just submit an issue on the official repository page.
 
 ## Purpose
 
-The reason this package exists is that `connectivity` package cannot reliably determine if a data connection is actually available. More info on its page here: https://pub.dev/packages/connectivity and here: https://stackoverflow.com/questions/49648022/check-whether-there-is-an-internet-connection-available-on-flutter-app
+The reason this package exists is that `connectivity` package cannot reliably determine if a data connection is actually available. More info on its page here: https://pub.dev/packages/connectivity 
+
+Info on the issue in general:
+- https://stackoverflow.com/questions/49648022/check-whether-there-is-an-internet-connection-available-on-flutter-app
+- https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out/27312494#27312494 (this is the best approach so far IMO and is what I'm using)
 
 You can use this package in combination with `connectivity` in the following way:
 
