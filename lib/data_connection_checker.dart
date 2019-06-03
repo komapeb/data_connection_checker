@@ -8,10 +8,6 @@ library data_connection_checker;
 import 'dart:io';
 import 'dart:async';
 
-import 'dart:math' as math show Random;
-
-math.Random _rnd = math.Random();
-
 class DataConnectionChecker {
   /// Predefined reliable addresses. This is opinionated
   /// but should be enough for a starting point.
@@ -22,10 +18,10 @@ class DataConnectionChecker {
   /// 208.67.220.220    OpenDNS
   static const List<String> DEFAULT_ADDRESSES = [
     '1.1.1.1',
-    '8.8.8.8',
+    // '8.8.8.8',
     '8.8.4.4',
-    '208.67.222.222',
-    '208.67.222.222',
+    // '208.67.222.222',
+    '208.67.220.220',
   ];
 
   /// Port should always be 53.
@@ -90,7 +86,7 @@ class DataConnectionChecker {
 
   /// Returns the log from the last try
   String get lastTryLog => _lastTryLog;
-  String _lastTryLog;
+  String _lastTryLog = '';
 
   //*
   Future<bool> _isHostReachable(
