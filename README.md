@@ -19,6 +19,8 @@ main() async {
 }
 ```
 
+See `example` folder for more examples.
+
 ## Features and bugs
 
 Please file feature requests and bugs at the [issue tracker][tracker].
