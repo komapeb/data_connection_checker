@@ -6,6 +6,8 @@ library data_connection_checker;
 import 'dart:io';
 import 'dart:async';
 
+/// This is a singleton that can be accessed like a regular constructor
+/// i.e. DataConnectionChecker() always returns the same instance.
 class DataConnectionChecker {
   /// More info on why default port is 53
   /// here: https://www.google.com/search?q=dns+server+port
