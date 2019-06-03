@@ -4,7 +4,7 @@
 
 ## Description
 
-Checks for an internet (data) connection, by opening a socket connection to DNS Resolver addresses to port 53.
+Checks for an internet (data) connection, by opening a socket to a list addresses
 
 The defaults of the plugin should be sufficient to reliably determine if
 the device is currently connected to the global network, e.i. has access to the Internet.
@@ -13,40 +13,38 @@ the device is currently connected to the global network, e.i. has access to the 
 
 ## Quick start:
 
+`DataConnectionChecker()` is actually a Singleton. Calling `DataConnectionChecker()`
+is guaranteed to always return the same instance.
+
+You can modify `DataConnectionChecker().addresses` if you need to check different destinations.
+Also, each address can have its own port and timeout.
+See `InternetAddressCheckOptions` in the docs for more info.
+
 ```dart
-// DataConnectionChecker accepts 3 named parameters,
-// which can override the defaults.
-// See the docs for more info.
-var internetChecker = DataConnectionChecker();
-bool result await internetChecker.hasDataConnection;
+bool result = await DataConnectionChecker().hasDataConnection;
 if(result == true) {
   print('YAY! Free cute dog pics!');
 } else {
   print('No internet :( Reason:');
-  print(internetChecker.lastTryLog);
+  print(DataConnectionChecker().lastTryLog);
 }
 ```
-
-You can specify different addresses/port/timeout when you instantiate the class, but when it's instantiated, there's no way to change the addresses/port/timeout. This is by design, but I'm open to discussion, just submit an issue on the official repository page.
 
 ## Purpose
 
 The reason this package exists is that `connectivity` package cannot reliably determine if a data connection is actually available. More info on its page here: https://pub.dev/packages/connectivity 
 
-Info on the issue in general:
-- https://stackoverflow.com/questions/49648022/check-whether-there-is-an-internet-connection-available-on-flutter-app
-- https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out/27312494#27312494 (this is the best approach so far IMO and is what I'm using)
+More info on the issue in general:
+- https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out/27312494#27312494 (this is the best approach so far IMO and it's what I'm using)
 
 You can use this package in combination with `connectivity` in the following way:
 
 ```dart
 var isDeviceConnected = false;
 
-var internetChecker = DataConnectionChecker();
-
 var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async {
   if(result != ConnectivityResult.none) {
-    isDeviceConnected = await internetChecker.hasDataConnection;
+    isDeviceConnected = await DataConnectionChecker().hasDataConnection;
   }
 });
 ```
@@ -57,11 +55,11 @@ var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResu
 
 All addresses are pinged simultaneously. On successful result (socket connection to address/port succeeds) a `true` boolean is pushed to a list, on failure (usually on timeout, default 10 sec) a `false` boolean is pushed to the same list.
 
-When all the requests complete with either success or failure, a check is made to see if the list contains at least one `true` boolean. If it does, then an external address is available, so we have data connection. If all the values in this list are `false`, then we have no connection to the outside world of cute cat and dog pictures, so `hasDataConnection()` returns `false` too.
+When all the requests complete with either success or failure, a check is made to see if the list contains at least one `true` boolean. If it does, then an external address is available, so we have data connection. If all the values in this list are `false`, then we have no connection to the outside world of cute cat and dog pictures, so `hasDataConnection` returns `false` too.
 
-This all happens at the same time for all addresses, so the maximum waiting time is the specified timeout.
+This all happens at the same time for all addresses, so the maximum waiting time is the address with the highest specified timeout, in case it's unreachable.
 
-I believe this a reliable method to check if a data connection is available to the device (running this code), but I may be wrong. I suggest you open an issue on the Github repository page if you have a better way.
+I believe this is a ***reliable*** and ***fast*** method to check if a data connection is available to a device, but I may be wrong. I suggest you open an issue on the Github repository page if you have a better way of.
 
 ## Defaults
 
@@ -77,30 +75,39 @@ Here's some more info about it:
 ```
 
 ```dart
-static const List<String> DEFAULT_ADDRESSES = [
-  '1.1.1.1',
-  '8.8.4.4',
-  '208.67.220.220',
+static final List<InternetAddressCheckOptions> DEFAULT_ADDRESSES = [
+  InternetAddressCheckOptions(
+    InternetAddress('1.1.1.1'),
+    port: DEFAULT_PORT,
+    timeout: DEFAULT_TIMEOUT,
+  ),
+  InternetAddressCheckOptions(
+    InternetAddress('8.8.4.4'),
+    port: DEFAULT_PORT,
+    timeout: DEFAULT_TIMEOUT,
+  ),
+  InternetAddressCheckOptions(
+    InternetAddress('208.67.222.222'),
+    port: DEFAULT_PORT,
+    timeout: DEFAULT_TIMEOUT,
+  ),
 ];
 ```
 
-#### `DEFAULT_PORT` should always be `53`
+#### `DEFAULT_PORT` is `53`
 
 >A DNS server listens for requests on port 53 (both UDP and TCP). So all DNS requests are sent to port 53 ...
 
 More info here: https://www.google.com/search?q=dns+server+port
 
-
 ```dart
-static const int DEFAULT_PORT = 53;
+static final int DEFAULT_PORT = 53;
 ```
 
-#### `DEFAULT_TIMEOUT` is 10 seconds, which can easily be overridden when instantiating the class.
-
-Overriding the default timeout:
+#### `DEFAULT_TIMEOUT` is 10 seconds
 
 ```dart
-var _internetChecker = DataConnectionChecker(timeout: Duration(CUSTOM_TIMEOUT));
+static final Duration DEFAULT_TIMEOUT = Duration(seconds: 10);
 ```
 
 ## Usage
@@ -111,12 +118,11 @@ Example:
 import 'package:data_connection_checker/data_connection_checker.dart';
 
 main() async {
-  var internetChecker = DataConnectionChecker();
   print("The statement 'this machine is connected to the Internet' is: ");
-  print(await internetChecker.hasDataConnection);
+  print(await DataConnectionChecker().hasDataConnection);
 
   print('---------\nlog from the last check:');
-  print(internetChecker.lastTryLog);
+  print(DataConnectionChecker().lastTryLog);
 }
 ```
 

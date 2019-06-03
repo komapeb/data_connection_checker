@@ -2,7 +2,7 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:test/test.dart';
 
 void main() {
-  // These tests are fairly stupid and not needed in general
+  // These tests are fairly stupid and not needed
   group('Testing data_connection_checker.', () {
     DataConnectionChecker internetChecker;
 
@@ -12,14 +12,6 @@ void main() {
 
     test('Checking if initial log string is empty', () {
       expect(internetChecker.lastTryLog, isEmpty);
-    });
-
-    test('Default port should be 53', () {
-      expect(internetChecker.port, equals(53));
-    });
-
-    test('Default timeout is 10 seconds', () {
-      expect(internetChecker.timeout.inSeconds, equals(10));
     });
 
     test(

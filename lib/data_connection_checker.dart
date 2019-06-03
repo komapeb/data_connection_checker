@@ -1,16 +1,13 @@
 /// A utility library to check for an actual internet connection
 /// by opening a socket connection to a list of addresses and/or ports.
 /// Defaults are provided for convenience.
-
 library data_connection_checker;
 
 import 'dart:io';
 import 'dart:async';
 
-import 'package:meta/meta.dart';
-
 class DataConnectionChecker {
-  /// More info  on why default port is 53
+  /// More info on why default port is 53
   /// here: https://www.google.com/search?q=dns+server+port
   static final int DEFAULT_PORT = 53;
 
@@ -55,25 +52,20 @@ class DataConnectionChecker {
   DataConnectionChecker._();
   static final DataConnectionChecker _instance = DataConnectionChecker._();
 
-  /// See [InternetAddressCheckOptions] for more info.
-  ///
-  ///
   /// [DataConnectionChecker.addresses]
   /// A list of internet addresses (with port and timeout) DNS Resolvers to ping.
   /// These should be globally available destinations.
   /// Default is [DataConnectionChecker.DEFAULT_ADDRESSES]
-  ///
   /// When [DataConnectionChecker.hasDataConnection] is called,
   /// this utility class tries to ping every address in this list.
-  ///
   /// The provided addresses should be good enough to test for data connection
   /// but you can, of course, you can supply your own
-  List<InternetAddressCheckOptions> addresses;
-
-  String _lastTryLog = '';
+  /// See [InternetAddressCheckOptions] for more info.
+  List<InternetAddressCheckOptions> addresses = DEFAULT_ADDRESSES;
 
   /// Returns the log message from the last try
   String get lastTryLog => _lastTryLog;
+  String _lastTryLog = '';
 
   /// Initiates a request to each address in [DataConnectionChecker.addresses]
   /// If at least one of the addresses is reachable
@@ -85,10 +77,9 @@ class DataConnectionChecker {
 
     // Wait all futures to complete and return true
     // if there's at least one true boolean in the list
-    // return (await Future.wait(addresses
-    //         .map((address) => _isHostReachable(address, port, timeout))
-    //         .toList()))
-    //     .contains(true);
+    return (await Future.wait(
+            addresses.map((address) => _isHostReachable(address)).toList()))
+        .contains(true);
 
     // The one-liner above is equivalent to:
     //
@@ -101,6 +92,31 @@ class DataConnectionChecker {
     //
     // results = await Future.wait(requests);
     // return results.contains(true);
+    //
+    // I know it's ugly, but I don't like unnecessary variable declarations.
+  }
+
+  /// Ping a single address and return `true` if it's reachable,
+  /// false otherwise
+  Future<bool> _isHostReachable(InternetAddressCheckOptions options) async {
+    _lastTryLog += 'Trying to ping ${options.address}, port: ${options.port}, '
+        'with timeout: ${options.timeout.inSeconds} seconds \n';
+
+    Socket sock;
+    try {
+      sock = await Socket.connect(
+        options.address,
+        options.port,
+        timeout: options.timeout,
+      );
+      sock.destroy();
+      _lastTryLog += '${options.address} is reachable. \n';
+      return true;
+    } catch (e) {
+      if (sock != null) sock.destroy();
+      _lastTryLog += '${options.address} is unreachable. Reason: $e \n';
+      return false;
+    }
   }
 }
 
@@ -110,13 +126,12 @@ class DataConnectionChecker {
 /// default to [DataConnectionChecker.DEFAULT_PORT]
 /// and [DataConnectionChecker.DEFAULT_TIMEOUT]
 /// Also... yeah, I'm not great at naming things.
-@immutable
 class InternetAddressCheckOptions {
   final InternetAddress address;
   final int port;
   final Duration timeout;
 
-  const InternetAddressCheckOptions(
+  InternetAddressCheckOptions(
     this.address, {
     this.port,
     this.timeout,
@@ -125,38 +140,3 @@ class InternetAddressCheckOptions {
   @override
   String toString() => "$address, port: $port, timeout: $timeout";
 }
-
-/*
-
-
-  Future<bool> _isHostReachable(
-    InternetAddress address,
-    int port,
-    Duration timeout,
-  ) async {
-    _lastTryLog += 'Trying to ping $address, port: $port, '
-        'with timeout: ${timeout.inSeconds} seconds \n';
-
-
-    Socket sock;
-    try {
-      sock = await Socket.connect(address, port, timeout: timeout);
-      sock.destroy();
-
-      // dev stuff, remove in production
-      _lastTryLog += '$address is reachable. \n';
-      // end dev stuff
-
-      return true;
-    } catch (e) {
-      if (sock != null) sock.destroy();
-
-      // dev stuff, remove in production
-      _lastTryLog += '$address is unreachable. Reason: $e \n';
-      // end dev stuff
-
-      return false;
-    }
-  }
-}
-// */

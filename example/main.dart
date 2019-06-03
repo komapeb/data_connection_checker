@@ -1,22 +1,12 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:data_connection_checker/data_connection_checker.dart';
 
-
-main() {
-  //
-}
-
-
-/*
-
 // Note that this isn't the way to write code
 // You usually don't want to pollute your global scope like this
-// This code is written like this for the sake of demonstration and simplicity
+// This code is written like that for the sake of demonstration and simplicity
 
-// init an instance with default config
-var _internetChecker = DataConnectionChecker();
+// Also, this piece of code will continue on forever if not interrupted.
 
 // global reference to the timer, so we can manipulate it everywhere
 Timer _timerHandle;
@@ -25,10 +15,10 @@ main() async {
   // cspell:disable
   // check if we have the interwebz
   print("The statement 'this machine is connected to the Internet' is: ");
-  print(await _internetChecker.hasDataConnection);
+  print(await DataConnectionChecker().hasDataConnection);
 
   print('---------\nlog from the last check:');
-  print(_internetChecker.lastTryLog);
+  print(DataConnectionChecker().lastTryLog);
 
   // Check periodically, every 5 seconds, until the process is stopped
   _startCheckingPeriodically();
@@ -39,7 +29,7 @@ void _checkPeriodically(_) async {
   // until this check completes
   _stopCheckingPeriodically();
 
-  bool result = await _internetChecker.hasDataConnection;
+  bool result = await DataConnectionChecker().hasDataConnection;
   if (result) {
     print("We're part of the World. Hello, World! YAY!");
   } else {
@@ -56,4 +46,3 @@ void _startCheckingPeriodically() {
 void _stopCheckingPeriodically() {
   if (_timerHandle != null) _timerHandle.cancel();
 }
-// */
