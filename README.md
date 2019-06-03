@@ -55,7 +55,7 @@ More info here: https://www.google.com/search?q=dns+server+port
 static const int DEFAULT_PORT = 53;
 ```
 
-#### The default timeout is 10 seconds, which can easily be overridden, when instantiating the class.
+#### `DEFAULT_TIMEOUT` is 10 seconds, which can easily be overridden when instantiating the class.
 
 Overriding the default timeout:
 
