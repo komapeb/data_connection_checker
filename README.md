@@ -1,6 +1,6 @@
 ## data_connection_checker
 
-[This package is on pub.dev](https://pub.dev/packages/data_connection_checker)
+[This package is on pub.dev](https://pub.dev/packages/data_connection_checker) ![Pub](https://img.shields.io/pub/v/data_connection_checker.svg)
 
 ## Description
 
