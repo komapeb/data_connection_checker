@@ -2,7 +2,7 @@ name: data_connection_checker
 description: Checks for an actual internet connection, by opening a socket connection to DNS Resolver addresses.
 version: 0.1.0
 homepage: https://github.com/komapeb/data_connection_checker
-author: Kristiyan Mitev
+author: Kristiyan Mitev <me@example.com>
 
 environment:
   sdk: '>=2.2.0 <3.0.0'
