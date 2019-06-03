@@ -28,6 +28,9 @@ class DataConnectionChecker {
   /// More info here: https://www.google.com/search?q=dns+server+port
   static const int DEFAULT_PORT = 53;
 
+  /// Default timeout is 10 seconds
+  static const Duration DEFAULT_TIMEOUT = const Duration(seconds: 10);
+
   /// The addresses associated with this instance.
   List<InternetAddress> get addresses => _addresses;
   List<InternetAddress> _addresses;
@@ -61,7 +64,7 @@ class DataConnectionChecker {
   DataConnectionChecker({
     List<String> addresses = DEFAULT_ADDRESSES,
     int port = DEFAULT_PORT,
-    Duration timeout = const Duration(seconds: 10),
+    Duration timeout = DEFAULT_TIMEOUT,
   })  : _addresses = addresses.map((e) => InternetAddress(e)).toList(),
         _port = port,
         _timeout = timeout;
