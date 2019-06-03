@@ -141,7 +141,7 @@ class DataConnectionChecker {
       if (sock != null) sock.destroy();
 
       // dev stuff, remove in production
-      _lastTryLog += '$address is unreachable. \n';
+      _lastTryLog += '$address is unreachable. Reason: $e \n';
       // end dev stuff
 
       return false;
