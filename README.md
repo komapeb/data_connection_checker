@@ -28,7 +28,7 @@ Once the class is instantiated, there's no way to change the addresses/port/time
 The defaults are based on data collected from https://perfops.net/ (https://www.dnsperf.com/#!dns-resolvers)
 Here's some more info about it:
 
-### `DEFAULT_ADDRESSES` includes the top 3 globally available DNS resolvers:
+#### `DEFAULT_ADDRESSES` includes the top 3 globally available DNS resolvers:
 
 ```plain
 1.1.1.1           CloudFlare, info: https://one.one.one.one/ http://1.1.1.1
@@ -44,7 +44,7 @@ static const List<String> DEFAULT_ADDRESSES = [
 ];
 ```
 
-### `DEFAULT_PORT` should always be `53`. More info here: https://www.google.com/search?q=dns+server+port
+#### `DEFAULT_PORT` should always be `53`. More info here: https://www.google.com/search?q=dns+server+port
 
 >A DNS server listens for requests on port 53 (both UDP and TCP). So all DNS requests are sent to port 53 ...
 
@@ -52,7 +52,7 @@ static const List<String> DEFAULT_ADDRESSES = [
 static const int DEFAULT_PORT = 53;
 ```
 
-### The default timeout is 10 seconds, which can easily be overridden, when instantiating the class:
+#### The default timeout is 10 seconds, which can easily be overridden, when instantiating the class:
 
 ```dart
 ...
