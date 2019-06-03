@@ -2,8 +2,6 @@
 
 ![Pub](https://img.shields.io/pub/v/data_connection_checker.svg)
 
-[This package is on pub.dev](https://pub.dev/packages/data_connection_checker) 
-
 ## Description
 
 Checks for an internet (data) connection, by opening a socket connection to DNS Resolver addresses to port 53.
