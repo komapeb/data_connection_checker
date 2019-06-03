@@ -1,6 +1,76 @@
 ## data_connection_checker
 
-Checks for an internet (data) connection, by opening a socket connection to DNS Resolver addresses.
+Checks for an internet (data) connection, by opening a socket connection to DNS Resolver addresses to port 53.
+
+The defaults of the plugin should be sufficient to reliably determine if
+the device is currently connected to the global network, e.i. has access to the Internet.
+
+## Quick start:
+
+```dart
+// DataConnectionChecker accepts 3 named parameters,
+// which can override the defaults.
+// See the docs for more info.
+var internetChecker = DataConnectionChecker();
+bool result await internetChecker.hasDataConnection;
+if(result == true) {
+  print('YAY! Free cute dog pics!');
+} else {
+  print('No internet :( Reason:');
+  print(internetChecker.lastTryLog);
+}
+```
+
+Once the class is instantiated, there's no way to change the addresses/port/timeout. This is by design, but I'm open to discussion, just submit an issue on the official repository page.
+
+## Defaults
+
+The defaults are based on data collected from https://perfops.net/ (https://www.dnsperf.com/#!dns-resolvers)
+Here's some more info about it:
+
+### `DEFAULT_ADDRESSES` includes the top 3 globally available DNS resolvers:
+
+```plain
+1.1.1.1           CloudFlare, info: https://one.one.one.one/ http://1.1.1.1
+8.8.4.4           Google, info: https://developers.google.com/speed/public-dns/
+208.67.220.220    OpenDNS, info: https://use.opendns.com/
+```
+
+```dart
+static const List<String> DEFAULT_ADDRESSES = [
+  '1.1.1.1',
+  '8.8.4.4',
+  '208.67.220.220',
+];
+```
+
+### `DEFAULT_PORT` should always be `53`. More info here: https://www.google.com/search?q=dns+server+port
+
+>A DNS server listens for requests on port 53 (both UDP and TCP). So all DNS requests are sent to port 53 ...
+
+```dart
+static const int DEFAULT_PORT = 53;
+```
+
+### The default timeout is 10 seconds, which can easily be overridden, when instantiating the class:
+
+```dart
+...
+DataConnectionChecker({
+  ...
+  Duration timeout = const Duration(seconds: 10),
+  ...
+})
+...
+```
+
+
+Override the default timeout:
+
+```dart
+var _internetChecker = DataConnectionChecker(timeout: Duration([CUSTOM_TIMEOUT]));
+```
+
 
 ## Usage
 
