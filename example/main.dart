@@ -10,6 +10,7 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 
 // global reference to the timer, so we can manipulate it everywhere
 Timer _timerHandle;
+Duration _checkInterval = Duration(seconds: 10);
 
 main() async {
   // cspell:disable
@@ -27,7 +28,10 @@ main() async {
 void _checkPeriodically(_) async {
   // we don't want other calls, until this one is done, so we cancel the timer
   // until this check completes
+  print("Stopping the timer while we make a request.");
   _stopCheckingPeriodically();
+
+  print("Trying to ping: ${DataConnectionChecker().addresses}");
 
   bool result = await DataConnectionChecker().hasDataConnection;
   if (result) {
@@ -40,7 +44,8 @@ void _checkPeriodically(_) async {
 }
 
 void _startCheckingPeriodically() {
-  _timerHandle = Timer.periodic(Duration(seconds: 5), _checkPeriodically);
+  print("Starting a timer to check periodically.");
+  _timerHandle = Timer.periodic(_checkInterval, _checkPeriodically);
 }
 
 void _stopCheckingPeriodically() {
