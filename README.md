@@ -9,9 +9,9 @@
 - [Purpose](#purpose)
 - [How it works](#how-it-works)
 - [Defaults](#defaults)
-  - [`DEFAULT_ADDRESSES` includes the top 3 globally available DNS resolvers](#default_addresses-includes-the-top-3-globally-available-dns-resolvers)
-  - [`DEFAULT_PORT` is 53](#default_port-is-53)
-  - [`DEFAULT_TIMEOUT` is 10 seconds](#default_timeout-is-10-seconds)
+    - [`DEFAULT_ADDRESSES` includes the top 3 globally available DNS resolvers](#default_addresses-includes-the-top-3-globally-available-dns-resolvers)
+    - [`DEFAULT_PORT` is 53](#default_port-is-53)
+    - [`DEFAULT_TIMEOUT` is 10 seconds](#default_timeout-is-10-seconds)
 - [Usage](#usage)
 - [License](#license)
 - [Features and bugs](#features-and-bugs)
@@ -86,7 +86,7 @@ I believe this is a ***reliable*** and ***fast*** method to check if a data conn
 The defaults are based on data collected from <https://perfops.net/> (<https://www.dnsperf.com/#!dns-resolvers)>
 Here's some more info about it:
 
-### `DEFAULT_ADDRESSES` includes the top 3 globally available DNS resolvers
+#### `DEFAULT_ADDRESSES` includes the top 3 globally available DNS resolvers
 
 | Address        | Provider   | Info                                              |
 | :------------- | :--------- | :------------------------------------------------ |
@@ -117,7 +117,7 @@ static final List<AddressCheckOptions> DEFAULT_ADDRESSES = List.unmodifiable([
 ]);
 ```
 
-### `DEFAULT_PORT` is 53
+#### `DEFAULT_PORT` is 53
 
 >A DNS server listens for requests on port 53 (both UDP and TCP). So all DNS requests are sent to port 53 ...
 
@@ -130,7 +130,7 @@ More info:
 static const int DEFAULT_PORT = 53;
 ```
 
-### `DEFAULT_TIMEOUT` is 10 seconds
+#### `DEFAULT_TIMEOUT` is 10 seconds
 
 ```dart
 static const Duration DEFAULT_TIMEOUT = Duration(seconds: 10);
