@@ -36,15 +36,13 @@ class DataConnectionChecker {
   /// Predefined reliable addresses. This is opinionated
   /// but should be enough for a starting point.
   ///
-  /// 1.1.1.1           CloudFlare, info: https://one.one.one.one/ http://1.1.1.1
+  /// Addresses info:
   ///
-  /// 8.8.8.8           Google, info: https://developers.google.com/speed/public-dns/
-  ///
-  /// 8.8.4.4           Google
-  ///
-  /// 208.67.222.222    OpenDNS, info: https://use.opendns.com/
-  ///
-  /// 208.67.220.220    OpenDNS
+  /// - `1.1.1.1          CloudFlare` info: https://one.one.one.one/ http://1.1.1.1
+  /// - `8.8.8.8          Google` info: https://developers.google.com/speed/public-dns/
+  /// - `8.8.4.4          Google`
+  /// - `208.67.222.222   OpenDNS` info: https://use.opendns.com/
+  /// - `208.67.220.220   OpenDNS`
   static final List<AddressCheckOptions> DEFAULT_ADDRESSES = List.unmodifiable([
     AddressCheckOptions(
       InternetAddress('1.1.1.1'),
@@ -63,13 +61,7 @@ class DataConnectionChecker {
     ),
   ]);
 
-  /// This is a singleton that can be accessed like a regular constructor
-  /// i.e. DataConnectionChecker() always returns the same instance.
-  factory DataConnectionChecker() => _instance;
-  DataConnectionChecker._();
-  static final DataConnectionChecker _instance = DataConnectionChecker._();
-
-  /// A list of internet addresses (with port and timeout) DNS Resolvers to ping.
+  /// A list of internet addresses (with port and timeout) to ping.
   /// These should be globally available destinations.
   /// Default is [DEFAULT_ADDRESSES]
   /// When [hasConnection] is called,
@@ -78,6 +70,12 @@ class DataConnectionChecker {
   /// but you can, of course, you can supply your own
   /// See [AddressCheckOptions] for more info.
   List<AddressCheckOptions> addresses = DEFAULT_ADDRESSES;
+
+  /// This is a singleton that can be accessed like a regular constructor
+  /// i.e. DataConnectionChecker() always returns the same instance.
+  factory DataConnectionChecker() => _instance;
+  DataConnectionChecker._();
+  static final DataConnectionChecker _instance = DataConnectionChecker._();
 
   /// Ping a single address.
   Future<AddressCheckResult> isHostReachable(
