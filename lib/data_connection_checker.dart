@@ -37,13 +37,25 @@ class DataConnectionChecker {
   /// but should be enough for a starting point.
   ///
   /// Addresses info:
-  ///  ```
-  /// 1.1.1.1         CloudFlare <a href="https://one.one.one.one/">info</a>, <a href="http://1.1.1.1">info</a>
-  /// 8.8.8.8         Google info: https://developers.google.com/speed/public-dns/
-  /// 8.8.4.4         Google
-  /// 208.67.222.222  OpenDNS info: https://use.opendns.com/
-  /// 208.67.220.220  OpenDNS
-  /// ```
+  ///
+  /// <!-- kinda hackish ^_^ -->
+  /// <style>
+  /// table {
+  ///   width: 100%;
+  ///   border-collapse: collapse;
+  /// }
+  /// th, td { padding: 5px; border: 1px solid lightgrey; }
+  /// thead { border-bottom: 2px solid lightgrey; }
+  /// </style>
+  ///
+  /// | Address        | Provider   | Info                                            |
+  /// |:---------------|:-----------|:------------------------------------------------|
+  /// | 1.1.1.1        | CloudFlare | https://1.1.1.1                                 |
+  /// | 1.0.0.1        | CloudFlare | https://1.1.1.1                                 |
+  /// | 8.8.8.8        | Google     | https://developers.google.com/speed/public-dns/ |
+  /// | 8.8.4.4        | Google     | https://developers.google.com/speed/public-dns/ |
+  /// | 208.67.222.222 | OpenDNS    | https://use.opendns.com/                        |
+  /// | 208.67.220.220 | OpenDNS    | https://use.opendns.com/                        |
   static final List<AddressCheckOptions> DEFAULT_ADDRESSES = List.unmodifiable([
     AddressCheckOptions(
       InternetAddress('1.1.1.1'),

@@ -1,4 +1,4 @@
-## data_connection_checker
+# data_connection_checker
 
 [![Pub](https://img.shields.io/pub/v/data_connection_checker.svg)](https://pub.dev/packages/data_connection_checker)
 
@@ -11,7 +11,7 @@ the device is currently connected to the global network, e.i. has access to the 
 
 >Note that you should not be using the current network status for deciding whether you can reliably make a network connection. Always guard your app code against timeouts and errors that might come from the network layer.
 
-## Quick start:
+## Quick start
 
 `DataConnectionChecker()` is actually a Singleton. Calling `DataConnectionChecker()`
 is guaranteed to always return the same instance.
@@ -37,10 +37,11 @@ if(result == true) {
 
 ## Purpose
 
-The reason this package exists is that `connectivity` package cannot reliably determine if a data connection is actually available. More info on its page here: https://pub.dev/packages/connectivity 
+The reason this package exists is that `connectivity` package cannot reliably determine if a data connection is actually available. More info on its page here: <https://pub.dev/packages/connectivity>
 
 More info on the issue in general:
-- https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out/27312494#27312494 (this is the best approach so far IMO and it's what I'm using)
+
+- <https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out/27312494#27312494> (this is the best approach so far IMO and it's what I'm using)
 
 You can use this package in combination with `connectivity` in the following way:
 
@@ -68,16 +69,19 @@ I believe this is a ***reliable*** and ***fast*** method to check if a data conn
 
 ## Defaults
 
-The defaults are based on data collected from https://perfops.net/ (https://www.dnsperf.com/#!dns-resolvers)
+The defaults are based on data collected from <https://perfops.net/> (<https://www.dnsperf.com/#!dns-resolvers)>
 Here's some more info about it:
 
-#### `DEFAULT_ADDRESSES` includes the top 3 globally available DNS resolvers:
+### `DEFAULT_ADDRESSES` includes the top 3 globally available DNS resolvers
 
-```plain
-1.1.1.1           CloudFlare, info: https://one.one.one.one/ http://1.1.1.1
-8.8.4.4           Google, info: https://developers.google.com/speed/public-dns/
-208.67.220.220    OpenDNS, info: https://use.opendns.com/
-```
+| Address        | Provider   | Info                                            |
+|:---------------|:-----------|:------------------------------------------------|
+| 1.1.1.1        | CloudFlare | <https://1.1.1.1>                                 |
+| 1.0.0.1        | CloudFlare | <https://1.1.1.1>                                 |
+| 8.8.8.8        | Google     | <https://developers.google.com/speed/public-dns/> |
+| 8.8.4.4        | Google     | <https://developers.google.com/speed/public-dns/> |
+| 208.67.222.222 | OpenDNS    | <https://use.opendns.com/>                        |
+| 208.67.220.220 | OpenDNS    | <https://use.opendns.com/>                        |
 
 ```dart
 static final List<AddressCheckOptions> DEFAULT_ADDRESSES = List.unmodifiable([
@@ -103,9 +107,10 @@ static final List<AddressCheckOptions> DEFAULT_ADDRESSES = List.unmodifiable([
 
 >A DNS server listens for requests on port 53 (both UDP and TCP). So all DNS requests are sent to port 53 ...
 
-More info: 
-- https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
-- https://www.google.com/search?q=dns+server+port
+More info:
+
+- <https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers>
+- <https://www.google.com/search?q=dns+server+port>
 
 ```dart
 static const int DEFAULT_PORT = 53;
@@ -151,7 +156,6 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 
 ## Features and bugs
 
