@@ -3,6 +3,12 @@
 /// Defaults are provided for convenience.
 library data_connection_checker;
 
+/// TODO list for 0.3.0:
+/// - add ability to check periodically
+/// - check in an Isolate
+/// - document all of this
+/// provide examples
+
 import 'dart:io';
 import 'dart:async';
 
