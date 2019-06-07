@@ -21,6 +21,10 @@ need to check different destinations, ports and timeouts.
 Also, each address can have its own port and timeout.
 See `InternetAddressCheckOptions` in the docs for more info.
 
+***First you need to [install it][install] (this is the preferred way)***
+
+Then you can start using the library:
+
 ```dart
 bool result = await DataConnectionChecker().hasConnection;
 if(result == true) {
@@ -154,3 +158,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 Please file feature requests and bugs at the [issue tracker][tracker].
 
 [tracker]: https://github.com/komapeb/data_connection_checker/issues
+[install]: https://pub.dev/packages/data_connection_checker#-installing-tab-
