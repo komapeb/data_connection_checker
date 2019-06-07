@@ -1,20 +1,20 @@
-# data_connection_checker
+# data_connection_checker <!-- omit in toc -->
 
 [![Pub](https://img.shields.io/pub/v/data_connection_checker.svg)](https://pub.dev/packages/data_connection_checker)
 
-Table of contents
-- [data_connection_checker](#dataconnectionchecker)
-  - [Description](#description)
-  - [Quick start](#quick-start)
-  - [Purpose](#purpose)
-  - [How it works](#how-it-works)
-  - [Defaults](#defaults)
-    - [`DEFAULT_ADDRESSES` includes the top 3 globally available DNS resolvers](#defaultaddresses-includes-the-top-3-globally-available-dns-resolvers)
-    - [`DEFAULT_PORT` is 53](#defaultport-is-53)
-    - [`DEFAULT_TIMEOUT` is 10 seconds](#defaulttimeout-is-10-seconds)
-  - [Usage](#usage)
-  - [License](#license)
-  - [Features and bugs](#features-and-bugs)
+### Table of contents
+
+- [Description](#description)
+- [Quick start](#quick-start)
+- [Purpose](#purpose)
+- [How it works](#how-it-works)
+- [Defaults](#defaults)
+  - [`DEFAULT_ADDRESSES` includes the top 3 globally available DNS resolvers](#default_addresses-includes-the-top-3-globally-available-dns-resolvers)
+  - [`DEFAULT_PORT` is 53](#default_port-is-53)
+  - [`DEFAULT_TIMEOUT` is 10 seconds](#default_timeout-is-10-seconds)
+- [Usage](#usage)
+- [License](#license)
+- [Features and bugs](#features-and-bugs)
 
 ## Description
 
