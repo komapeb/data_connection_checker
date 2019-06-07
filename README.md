@@ -2,6 +2,9 @@
 
 [![Pub](https://img.shields.io/pub/v/data_connection_checker.svg)](https://pub.dev/packages/data_connection_checker)
 
+>*Note that this plugin is in beta, and may still have
+a few issues and missing APIs. [Feedback][issues_tracker] is welcome.*
+
 ### Table of contents
 
 - [Description](#description)
@@ -174,7 +177,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Features and bugs
 
-Please file feature requests and bugs at the [issue tracker][tracker].
+Please file feature requests and bugs at the [issue tracker][issues_tracker].
 
-[tracker]: https://github.com/komapeb/data_connection_checker/issues
+[issues_tracker]: https://github.com/komapeb/data_connection_checker/issues
+[pull_requests]: https://github.com/komapeb/data_connection_checker/pulls
 [install]: https://pub.dev/packages/data_connection_checker#-installing-tab-
