@@ -37,13 +37,11 @@ class DataConnectionChecker {
   /// but should be enough for a starting point.
   ///
   /// Addresses info:
-  /// - https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
-  /// - https://www.google.com/search?q=dns+server+port
-  /// - 1.1.1.1          CloudFlare info: https://one.one.one.one/ http://1.1.1.1
-  /// - 8.8.8.8          Google info: https://developers.google.com/speed/public-dns/
-  /// - 8.8.4.4          Google
-  /// - 208.67.222.222   OpenDNS info: https://use.opendns.com/
-  /// - 208.67.220.220   OpenDNS
+  /// - `1.1.1.1          CloudFlare` info: https://one.one.one.one/ http://1.1.1.1
+  /// - `8.8.8.8          Google` info: https://developers.google.com/speed/public-dns/
+  /// - `8.8.4.4          Google`
+  /// - `208.67.222.222   OpenDNS` info: https://use.opendns.com/
+  /// - `208.67.220.220   OpenDNS`
   static final List<AddressCheckOptions> DEFAULT_ADDRESSES = List.unmodifiable([
     AddressCheckOptions(
       InternetAddress('1.1.1.1'),
