@@ -1,17 +1,19 @@
-/// A utility library to check for an actual internet connection
-/// by opening a socket connection to a list of addresses and/or ports.
-/// Defaults are provided for convenience.
+/// A pure Dart utility library that checks for an internet connection
+/// by opening a socket to a list of specified addresses, each with individual
+/// port and timeout. Defaults are provided for convenience.
 library data_connection_checker;
 
 /// TODO list for 0.3.0:
 /// - add ability to check periodically
 /// - check in an Isolate
 /// - document all of this
-/// provide examples
+/// - provide examples
 
 import 'dart:io';
 import 'dart:async';
 
+/// Represents the status of the data connection.
+/// Returned by [connectionStatus]
 enum DataConnectionStatus {
   disconnected,
   connected,
