@@ -3,7 +3,7 @@
 [![Pub](https://img.shields.io/pub/v/data_connection_checker.svg)](https://pub.dev/packages/data_connection_checker)
 
 >*Note that this plugin is in beta, and may still have
-a few issues and missing APIs. [Feedback][issues_tracker] is welcome.*
+a few issues. [Feedback][issues_tracker] is welcome.*
 
 ### Table of contents
 
