@@ -5,8 +5,7 @@ library data_connection_checker;
 
 /// TODO list for 0.3.0:
 /// add ability to check periodically
-/// check in an Isolate
-/// document all of this
+/// document it
 /// provide examples
 /// TODO bump version to 0.3.0 in pubspec.yaml
 
@@ -149,6 +148,30 @@ class DataConnectionChecker {
         ? DataConnectionStatus.connected
         : DataConnectionStatus.disconnected;
   }
+
+  Duration _checkInterval = DEFAULT_INTERVAL;
+  Duration get checkInterval => _checkInterval;
+  set checkInterval(Duration value) {
+    //
+  }
+
+  bool _checkPeriodically = false;
+  bool get checkPeriodically => _checkPeriodically;
+  set checkPeriodically(bool value) {
+    //
+  }
+
+  _performCheck([Timer timer]) {
+    // perform check
+    
+    // if(!_checkPeriodically) return;
+    // run new timer
+  }
+
+  StreamController<DataConnectionStatus> _controller =
+      StreamController.broadcast();
+
+  Stream<DataConnectionStatus> get onStatusChange => _controller.stream;
 }
 
 /// This class should be pretty self-explanatory.

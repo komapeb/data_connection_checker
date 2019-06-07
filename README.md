@@ -1,8 +1,8 @@
 ### data_connection_checker
 
-A pure Dart utility library that checks for an internet connection by opening a socket to a list of specified addresses, each with individual port and timeout. Defaults are provided for convenience.
-
 [![Pub](https://img.shields.io/pub/v/data_connection_checker.svg)](https://pub.dev/packages/data_connection_checker)
+
+A pure Dart utility library that checks for an internet connection by opening a socket to a list of specified addresses, each with individual port and timeout. Defaults are provided for convenience.
 
 >*Note that this plugin is in beta and may still have
 a few issues. [Feedback][issues_tracker] is welcome.*

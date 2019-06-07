@@ -7,7 +7,7 @@
 - `isHostReachable()` is now public. It allows for individual checks.
 - Fix `DEFAULT_ADDRESSES` to be unmodifiable
 - removed getter `lastTryLog`
-- added getter `status`
+- added getter `connectionStatus`
 - added getter `lastTryResults`
 - updated example and readme
 
