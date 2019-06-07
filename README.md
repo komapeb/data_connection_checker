@@ -16,17 +16,18 @@ the device is currently connected to the global network, e.i. has access to the 
 `DataConnectionChecker()` is actually a Singleton. Calling `DataConnectionChecker()`
 is guaranteed to always return the same instance.
 
-You can modify `DataConnectionChecker().addresses` if you need to check different destinations.
+You can supply a new list to `DataConnectionChecker().addresses` if you
+need to check different destinations, ports and timeouts.
 Also, each address can have its own port and timeout.
 See `InternetAddressCheckOptions` in the docs for more info.
 
 ```dart
-bool result = await DataConnectionChecker().hasDataConnection;
+bool result = await DataConnectionChecker().hasConnection;
 if(result == true) {
   print('YAY! Free cute dog pics!');
 } else {
   print('No internet :( Reason:');
-  print(DataConnectionChecker().lastTryLog);
+  print(DataConnectionChecker().lastTryResults);
 }
 ```
 
@@ -44,7 +45,7 @@ var isDeviceConnected = false;
 
 var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async {
   if(result != ConnectivityResult.none) {
-    isDeviceConnected = await DataConnectionChecker().hasDataConnection;
+    isDeviceConnected = await DataConnectionChecker().hasConnection;
   }
 });
 ```
@@ -55,7 +56,7 @@ var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResu
 
 All addresses are pinged simultaneously. On successful result (socket connection to address/port succeeds) a `true` boolean is pushed to a list, on failure (usually on timeout, default 10 sec) a `false` boolean is pushed to the same list.
 
-When all the requests complete with either success or failure, a check is made to see if the list contains at least one `true` boolean. If it does, then an external address is available, so we have data connection. If all the values in this list are `false`, then we have no connection to the outside world of cute cat and dog pictures, so `hasDataConnection` returns `false` too.
+When all the requests complete with either success or failure, a check is made to see if the list contains at least one `true` boolean. If it does, then an external address is available, so we have data connection. If all the values in this list are `false`, then we have no connection to the outside world of cute cat and dog pictures, so `hasConnection` also returns `false` too.
 
 This all happens at the same time for all addresses, so the maximum waiting time is the address with the highest specified timeout, in case it's unreachable.
 
@@ -75,39 +76,41 @@ Here's some more info about it:
 ```
 
 ```dart
-static final List<InternetAddressCheckOptions> DEFAULT_ADDRESSES = [
-  InternetAddressCheckOptions(
+static final List<AddressCheckOptions> DEFAULT_ADDRESSES = List.unmodifiable([
+  AddressCheckOptions(
     InternetAddress('1.1.1.1'),
     port: DEFAULT_PORT,
     timeout: DEFAULT_TIMEOUT,
   ),
-  InternetAddressCheckOptions(
+  AddressCheckOptions(
     InternetAddress('8.8.4.4'),
     port: DEFAULT_PORT,
     timeout: DEFAULT_TIMEOUT,
   ),
-  InternetAddressCheckOptions(
+  AddressCheckOptions(
     InternetAddress('208.67.222.222'),
     port: DEFAULT_PORT,
     timeout: DEFAULT_TIMEOUT,
   ),
-];
+]);
 ```
 
 #### `DEFAULT_PORT` is `53`
 
 >A DNS server listens for requests on port 53 (both UDP and TCP). So all DNS requests are sent to port 53 ...
 
-More info here: https://www.google.com/search?q=dns+server+port
+More info: 
+- https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
+- https://www.google.com/search?q=dns+server+port
 
 ```dart
-static final int DEFAULT_PORT = 53;
+static const int DEFAULT_PORT = 53;
 ```
 
 #### `DEFAULT_TIMEOUT` is 10 seconds
 
 ```dart
-static final Duration DEFAULT_TIMEOUT = Duration(seconds: 10);
+static const Duration DEFAULT_TIMEOUT = Duration(seconds: 10);
 ```
 
 ## Usage
@@ -119,10 +122,15 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 
 main() async {
   print("The statement 'this machine is connected to the Internet' is: ");
-  print(await DataConnectionChecker().hasDataConnection);
+  print(await DataConnectionChecker().hasConnection);
 
-  print('---------\nlog from the last check:');
-  print(DataConnectionChecker().lastTryLog);
+  // We can also get an enum instead of a bool
+  print(await DataConnectionChecker().connectionStatus);
+  // prints either DataConnectionStatus.connected
+  // or DataConnectionStatus.disconnected
+
+  print('Results from the last check:');
+  print(DataConnectionChecker().lastTryResults);
 }
 ```
 

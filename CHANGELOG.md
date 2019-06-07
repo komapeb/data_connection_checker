@@ -1,3 +1,16 @@
+## 0.2.1
+
+**Breaking change**
+- `hasDataConnection` is now called `hasConnection`
+
+*Non breaking*
+- `isHostReachable()` is now public. It allows for individual checks.
+- Fix `DEFAULT_ADDRESSES` to be unmodifiable
+- removed getter `lastTryLog`
+- added getter `status`
+- added getter `lastTryResults`
+- updated example and readme
+
 ## 0.2.0
 
 - **Breaking changes**
