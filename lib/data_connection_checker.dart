@@ -4,10 +4,11 @@
 library data_connection_checker;
 
 /// TODO list for 0.3.0:
-/// - add ability to check periodically
-/// - check in an Isolate
-/// - document all of this
-/// - provide examples
+/// add ability to check periodically
+/// check in an Isolate
+/// document all of this
+/// provide examples
+/// TODO bump version to 0.3.0 in pubspec.yaml
 
 import 'dart:io';
 import 'dart:async';
@@ -28,13 +29,19 @@ class DataConnectionChecker {
   /// - https://www.google.com/search?q=dns+server+port
   static const int DEFAULT_PORT = 53;
 
-  /// Default timeout is 10 seconds
+  /// Default timeout is 10 seconds.
+  ///
   /// Timeout is the number of seconds before a request is dropped
   /// and an address is considered unreachable
-  static const Duration DEFAULT_TIMEOUT = Duration(seconds: 10);
+  static const Duration DEFAULT_TIMEOUT = const Duration(seconds: 10);
+
+  /// Default interval is 10 seconds
+  ///
+  /// Interval us the time between automatic checks
+  static const Duration DEFAULT_INTERVAL = const Duration(seconds: 10);
 
   /// Predefined reliable addresses. This is opinionated
-  /// but should be enough for a starting point.
+  /// but should be enough. See https://www.dnsperf.com/#!dns-resolvers
   ///
   /// Addresses info:
   ///
