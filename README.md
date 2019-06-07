@@ -2,7 +2,7 @@
 
 [![Pub](https://img.shields.io/pub/v/data_connection_checker.svg)](https://pub.dev/packages/data_connection_checker)
 
->*Note that this plugin is in beta, and may still have
+>*Note that this plugin is in beta and may still have
 a few issues. [Feedback][issues_tracker] is welcome.*
 
 ### Table of contents
@@ -12,7 +12,7 @@ a few issues. [Feedback][issues_tracker] is welcome.*
 - [Purpose](#purpose)
 - [How it works](#how-it-works)
 - [Defaults](#defaults)
-    - [`DEFAULT_ADDRESSES` includes the top 3 globally available DNS resolvers](#default_addresses-includes-the-top-3-globally-available-dns-resolvers)
+    - [`DEFAULT_ADDRESSES` includes the top 3 globally available free DNS resolvers](#default_addresses-includes-the-top-3-globally-available-free-dns-resolvers)
     - [`DEFAULT_PORT` is 53](#default_port-is-53)
     - [`DEFAULT_TIMEOUT` is 10 seconds](#default_timeout-is-10-seconds)
 - [Usage](#usage)
@@ -90,7 +90,7 @@ The defaults are based on data collected from <https://perfops.net/>, <https://w
 
 Here's some more info about the defaults:
 
-#### `DEFAULT_ADDRESSES` includes the top 3 globally available DNS resolvers
+#### `DEFAULT_ADDRESSES` includes the top 3 globally available free DNS resolvers
 
 | Address        | Provider   | Info                                              |
 | :------------- | :--------- | :------------------------------------------------ |
