@@ -2,6 +2,19 @@
 
 [![Pub](https://img.shields.io/pub/v/data_connection_checker.svg)](https://pub.dev/packages/data_connection_checker)
 
+- [data_connection_checker](#dataconnectionchecker)
+  - [Description](#description)
+  - [Quick start](#quick-start)
+  - [Purpose](#purpose)
+  - [How it works](#how-it-works)
+  - [Defaults](#defaults)
+    - [`DEFAULT_ADDRESSES` includes the top 3 globally available DNS resolvers](#defaultaddresses-includes-the-top-3-globally-available-dns-resolvers)
+    - [`DEFAULT_PORT` is 53](#defaultport-is-53)
+    - [`DEFAULT_TIMEOUT` is 10 seconds](#defaulttimeout-is-10-seconds)
+  - [Usage](#usage)
+  - [License](#license)
+  - [Features and bugs](#features-and-bugs)
+
 ## Description
 
 Checks for an internet (data) connection, by opening a socket to a list addresses
@@ -74,8 +87,8 @@ Here's some more info about it:
 
 ### `DEFAULT_ADDRESSES` includes the top 3 globally available DNS resolvers
 
-| Address        | Provider   | Info                                            |
-|:---------------|:-----------|:------------------------------------------------|
+| Address        | Provider   | Info                                              |
+| :------------- | :--------- | :------------------------------------------------ |
 | 1.1.1.1        | CloudFlare | <https://1.1.1.1>                                 |
 | 1.0.0.1        | CloudFlare | <https://1.1.1.1>                                 |
 | 8.8.8.8        | Google     | <https://developers.google.com/speed/public-dns/> |
@@ -103,7 +116,7 @@ static final List<AddressCheckOptions> DEFAULT_ADDRESSES = List.unmodifiable([
 ]);
 ```
 
-#### `DEFAULT_PORT` is `53`
+### `DEFAULT_PORT` is 53
 
 >A DNS server listens for requests on port 53 (both UDP and TCP). So all DNS requests are sent to port 53 ...
 
@@ -116,7 +129,7 @@ More info:
 static const int DEFAULT_PORT = 53;
 ```
 
-#### `DEFAULT_TIMEOUT` is 10 seconds
+### `DEFAULT_TIMEOUT` is 10 seconds
 
 ```dart
 static const Duration DEFAULT_TIMEOUT = Duration(seconds: 10);
