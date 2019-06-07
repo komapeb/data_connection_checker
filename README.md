@@ -83,7 +83,8 @@ I believe this is a ***reliable*** and ***fast*** method to check if a data conn
 
 ## Defaults
 
-The defaults are based on data collected from <https://perfops.net/> (<https://www.dnsperf.com/#!dns-resolvers)>
+The defaults are based on data collected from <https://perfops.net/>, <https://www.dnsperf.com/#!dns-resolvers>
+
 Here's some more info about it:
 
 #### `DEFAULT_ADDRESSES` includes the top 3 globally available DNS resolvers
