@@ -13,7 +13,7 @@ import 'dart:io';
 import 'dart:async';
 
 /// Represents the status of the data connection.
-/// Returned by [connectionStatus]
+/// Returned by [DataConnectionChecker.connectionStatus]
 enum DataConnectionStatus {
   disconnected,
   connected,
@@ -37,12 +37,13 @@ class DataConnectionChecker {
   /// but should be enough for a starting point.
   ///
   /// Addresses info:
-  ///
-  /// - `1.1.1.1          CloudFlare` info: https://one.one.one.one/ http://1.1.1.1
-  /// - `8.8.8.8          Google` info: https://developers.google.com/speed/public-dns/
-  /// - `8.8.4.4          Google`
-  /// - `208.67.222.222   OpenDNS` info: https://use.opendns.com/
-  /// - `208.67.220.220   OpenDNS`
+  /// - https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
+  /// - https://www.google.com/search?q=dns+server+port
+  /// - 1.1.1.1          CloudFlare info: https://one.one.one.one/ http://1.1.1.1
+  /// - 8.8.8.8          Google info: https://developers.google.com/speed/public-dns/
+  /// - 8.8.4.4          Google
+  /// - 208.67.222.222   OpenDNS info: https://use.opendns.com/
+  /// - 208.67.220.220   OpenDNS
   static final List<AddressCheckOptions> DEFAULT_ADDRESSES = List.unmodifiable([
     AddressCheckOptions(
       InternetAddress('1.1.1.1'),
@@ -134,8 +135,8 @@ class DataConnectionChecker {
 /// This class should be pretty self-explanatory.
 /// If [AddressCheckOptions.port]
 /// or [AddressCheckOptions.timeout] are not specified, they both
-/// default to [DEFAULT_PORT]
-/// and [DEFAULT_TIMEOUT]
+/// default to [DataConnectionChecker.DEFAULT_PORT]
+/// and [DataConnectionChecker.DEFAULT_TIMEOUT]
 /// Also... yeah, I'm not great at naming things.
 class AddressCheckOptions {
   final InternetAddress address;
