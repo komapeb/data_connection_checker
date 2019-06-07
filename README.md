@@ -2,7 +2,10 @@
 
 [![Pub](https://img.shields.io/pub/v/data_connection_checker.svg)](https://pub.dev/packages/data_connection_checker)
 
+## Table of contents
+
 - [data_connection_checker](#dataconnectionchecker)
+  - [Table of contents](#table-of-contents)
   - [Description](#description)
   - [Quick start](#quick-start)
   - [Purpose](#purpose)
