@@ -92,8 +92,8 @@ class DataConnectionChecker {
   /// i.e. DataConnectionChecker() always returns the same instance.
   factory DataConnectionChecker() => _instance;
   DataConnectionChecker._() {
-    // immediately perform an initial check so we know the last status
-    connectionStatus.then((status) => _lastStatus = status);
+    // immediately perform an initial check so we know the last status?
+    // connectionStatus.then((status) => _lastStatus = status);
 
     // start sending status updates to onStatusChange when there are listeners
     // (emits only if there's any change since the last status update)
@@ -103,6 +103,7 @@ class DataConnectionChecker {
     // stop sending status updates when no one is listening
     _statusController.onCancel = () {
       _timerHandle?.cancel();
+      _lastStatus = null; // reset last status
     };
   }
   static final DataConnectionChecker _instance = DataConnectionChecker._();
@@ -189,7 +190,7 @@ class DataConnectionChecker {
     // start new timer only if there are listeners
     if (!_statusController.hasListener) return;
     _timerHandle = Timer(checkInterval, _maybeEmitStatusUpdate);
-    
+
     // update last status
     _lastStatus = currentStatus;
   }
@@ -240,7 +241,7 @@ class DataConnectionChecker {
 
   /// Alias for [hasListeners]
   bool get isActivelyChecking => _statusController.hasListener;
-} 
+}
 
 /// This class should be pretty self-explanatory.
 /// If [AddressCheckOptions.port]
