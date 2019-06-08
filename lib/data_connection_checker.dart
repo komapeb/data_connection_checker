@@ -240,9 +240,7 @@ class DataConnectionChecker {
 
   /// Alias for [hasListeners]
   bool get isActivelyChecking => _statusController.hasListener;
-
-  // </new code>
-}
+} 
 
 /// This class should be pretty self-explanatory.
 /// If [AddressCheckOptions.port]
