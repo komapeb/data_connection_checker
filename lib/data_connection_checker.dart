@@ -3,11 +3,6 @@
 /// port and timeout. Defaults are provided for convenience.
 library data_connection_checker;
 
-/// TODO list for 0.3.0:
-/// update changelog
-/// provide examples
-/// edit readme example and provide info for onStatusChange
-
 import 'dart:io';
 import 'dart:async';
 
