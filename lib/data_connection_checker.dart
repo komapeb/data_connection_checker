@@ -195,6 +195,8 @@ class DataConnectionChecker {
     _lastStatus = currentStatus;
   }
 
+  // _lastStatus should only be set by _maybeEmitStatusUpdate()
+  // and the _statusController's.onCancel event handler
   DataConnectionStatus _lastStatus;
   Timer _timerHandle;
 
