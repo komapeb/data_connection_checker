@@ -169,7 +169,7 @@ class DataConnectionChecker {
   /// only made if there's an attached listener to [onStatusChange].
   /// If that's the case [onStatusChange] emits an update only if
   /// there's change from the previous status.
-  /// 
+  ///
   /// Defaults to [DEFAULT_INTERVAL] (10 seconds).
   Duration checkInterval = DEFAULT_INTERVAL;
 
@@ -223,11 +223,11 @@ class DataConnectionChecker {
   ///   }
   /// });
   /// ```
-  /// 
+  ///
   /// *Note: Remember to dispose of any listeners,
   /// when they're not needed anymore,
   /// e.g. in a* `StatefulWidget`'s *dispose() method*
-  /// 
+  ///
   /// ```dart
   /// ...
   /// @override
