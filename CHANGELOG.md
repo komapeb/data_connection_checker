@@ -1,6 +1,6 @@
 ## 0.3.2
 
-- Fix status not updated bug
+- Fix status not updated bug (`_lastStatus` being set incorrectly)
 
 ## 0.3.1
 
