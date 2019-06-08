@@ -4,10 +4,9 @@
 library data_connection_checker;
 
 /// TODO list for 0.3.0:
-/// add ability to check periodically
 /// update changelog
-/// document it
 /// provide examples
+/// edit readme example and provide info for onStatusChange
 
 import 'dart:io';
 import 'dart:async';
@@ -36,9 +35,8 @@ class DataConnectionChecker {
 
   /// Default interval is 10 seconds
   ///
-  /// Interval us the time between automatic checks
-  // TODO Change this to 10 sec
-  static const Duration DEFAULT_INTERVAL = const Duration(seconds: 1);
+  /// Interval is the time between automatic checks
+  static const Duration DEFAULT_INTERVAL = const Duration(seconds: 10);
 
   /// Predefined reliable addresses. This is opinionated
   /// but should be enough. See https://www.dnsperf.com/#!dns-resolvers
@@ -82,12 +80,16 @@ class DataConnectionChecker {
   ]);
 
   /// A list of internet addresses (with port and timeout) to ping.
+  ///
   /// These should be globally available destinations.
-  /// Default is [DEFAULT_ADDRESSES]
-  /// When [hasConnection] is called,
+  /// Default is [DEFAULT_ADDRESSES].
+  ///
+  /// When [hasConnection] or [connectionStatus] is called,
   /// this utility class tries to ping every address in this list.
+  ///
   /// The provided addresses should be good enough to test for data connection
-  /// but you can, of course, you can supply your own
+  /// but you can, of course, supply your own.
+  ///
   /// See [AddressCheckOptions] for more info.
   List<AddressCheckOptions> addresses = DEFAULT_ADDRESSES;
 
@@ -95,12 +97,13 @@ class DataConnectionChecker {
   /// i.e. DataConnectionChecker() always returns the same instance.
   factory DataConnectionChecker() => _instance;
   DataConnectionChecker._() {
-    // immediately perform a check so we know the last status
+    // immediately perform an initial check so we know the last status
     connectionStatus.then((status) => _lastStatus = status);
 
     // start sending status updates to onStatusChange when there are listeners
+    // (emits only if there's any change since the last status update)
     _statusController.onListen = () {
-      _maybeCheckAndEmitStatusUpdate();
+      _maybeEmitStatusUpdate();
     };
     // stop sending status updates when no one is listening
     _statusController.onCancel = () {
@@ -109,7 +112,8 @@ class DataConnectionChecker {
   }
   static final DataConnectionChecker _instance = DataConnectionChecker._();
 
-  /// Ping a single address.
+  /// Ping a single address. See [AddressCheckOptions] for
+  /// info on the accepted argument.
   Future<AddressCheckResult> isHostReachable(
     AddressCheckOptions options,
   ) async {
@@ -128,19 +132,18 @@ class DataConnectionChecker {
     }
   }
 
-  /// Returns the results from the last check
-  /// The list is populated only when [hasConnection] (or [connectionStatus]) is called
+  /// Returns the results from the last check.
+  ///
+  /// The list is populated only when [hasConnection]
+  /// (or [connectionStatus]) is called.
   List<AddressCheckResult> get lastTryResults => _lastTryResults;
-  List<AddressCheckResult> _lastTryResults;
+  List<AddressCheckResult> _lastTryResults = <AddressCheckResult>[];
 
-  /// Initiates a request to each address in [addresses]
+  /// Initiates a request to each address in [addresses].
   /// If at least one of the addresses is reachable
-  /// this means we have an internet connection and this returns true.
-  /// Otherwise - false.
+  /// we assume an internet connection is available and return `true`.
+  /// `false` otherwise.
   Future<bool> get hasConnection async {
-    // Wait all futures to complete and return true
-    // if there's at least one address with isSuccess = true
-
     List<Future<AddressCheckResult>> requests = [];
 
     for (var addressOptions in addresses) {
@@ -151,9 +154,9 @@ class DataConnectionChecker {
     return _lastTryResults.map((result) => result.isSuccess).contains(true);
   }
 
-  /// Initiates a request to each address in [addresses]
+  /// Initiates a request to each address in [addresses].
   /// If at least one of the addresses is reachable
-  /// this means we have an internet connection and this returns
+  /// we assume an internet connection is available and return `true`
   /// [DataConnectionStatus.connected].
   /// [DataConnectionStatus.disconnected] otherwise.
   Future<DataConnectionStatus> get connectionStatus async {
@@ -162,16 +165,20 @@ class DataConnectionChecker {
         : DataConnectionStatus.disconnected;
   }
 
-  // TODO Test and document this new code
-  // <new code>
-
-  DataConnectionStatus _lastStatus;
-
+  /// The interval between periodic checks. Periodic checks are
+  /// only made if there's an attached listener to [onStatusChange].
+  /// If that's the case [onStatusChange] emits an update only if
+  /// there's change from the previous status.
+  /// 
+  /// Defaults to [DEFAULT_INTERVAL] (10 seconds).
   Duration checkInterval = DEFAULT_INTERVAL;
 
-  Timer _timerHandle;
-
-  _maybeCheckAndEmitStatusUpdate([Timer timer]) async {
+  // Checks the current status, compares it with the last and emits
+  // an event only if there's a change and there are attached listeners
+  //
+  // If there are listeners, a timer is started which runs this function again
+  // after the specified time in 'checkInterval'
+  _maybeEmitStatusUpdate([Timer timer]) async {
     // just in case
     _timerHandle?.cancel();
     timer?.cancel();
@@ -189,13 +196,55 @@ class DataConnectionChecker {
 
     // start new timer only if there are listeners
     if (!_statusController.hasListener) return;
-    _timerHandle = Timer(checkInterval, _maybeCheckAndEmitStatusUpdate);
+    _timerHandle = Timer(checkInterval, _maybeEmitStatusUpdate);
   }
 
+  DataConnectionStatus _lastStatus;
+  Timer _timerHandle;
+
+  // controller for the exposed 'onStatusChange' Stream
   StreamController<DataConnectionStatus> _statusController =
       StreamController.broadcast();
 
+  /// Subscribe to this stream to receive events whenever the
+  /// [DataConnectionStatus] changes.
+  ///
+  /// Example:
+  ///
+  /// ```dart
+  /// var listener = DataConnectionChecker().onStatusChange.listen((status) {
+  ///   switch(status) {
+  ///     case DataConnectionStatus.connected:
+  ///       print('Data connection is available.');
+  ///       break;
+  ///     case DataConnectionStatus.disconnected:
+  ///       print('You are disconnected from the internet.');
+  ///       break;
+  ///   }
+  /// });
+  /// ```
+  /// 
+  /// *Note: Remember to dispose of any listeners,
+  /// when they're not needed anymore,
+  /// e.g. in a* `StatefulWidget`'s *dispose() method*
+  /// 
+  /// ```dart
+  /// ...
+  /// @override
+  /// void dispose() {
+  ///   listener.cancel();
+  ///   super.dispose();
+  /// }
+  /// ...
+  /// ```
+  ///
   Stream<DataConnectionStatus> get onStatusChange => _statusController.stream;
+
+  /// Returns true if there are any listeners attached to [onStatusChange]
+  bool get hasListeners => _statusController.hasListener;
+
+  /// Alias for [hasListeners]
+  bool get isActivelyChecking => _statusController.hasListener;
 
   // </new code>
 }

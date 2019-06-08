@@ -1,7 +1,10 @@
 ## 0.3.0
 
-- ...
-- ...
+- Added `onStatusChange` stream, which users of this lib can subscribe to
+  and listen for status changes. Emit values of `DataConnectionStatus`
+- Added `checkInterval` which controls how often a check is made
+  when someone is listening to `onStatusChange`. Defaults to `DEFAULT_INTERVAL`
+  (10 seconds)
 
 ## 0.2.1
 

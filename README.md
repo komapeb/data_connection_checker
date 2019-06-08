@@ -17,6 +17,7 @@ a few issues. [Feedback][issues_tracker] is welcome.*
     - [`DEFAULT_ADDRESSES`](#default_addresses)
     - [`DEFAULT_PORT`](#default_port)
     - [`DEFAULT_TIMEOUT`](#default_timeout)
+    - [`DEFAULT_INTERVAL`](#default_interval)
 - [Usage](#usage)
 - [License](#license)
 - [Features and bugs](#features-and-bugs)
@@ -148,6 +149,22 @@ static const int DEFAULT_PORT = 53;
 static const Duration DEFAULT_TIMEOUT = Duration(seconds: 10);
 ```
 
+#### `DEFAULT_INTERVAL`
+
+... is 10 seconds. Interval is the time between automatic checks. Automatic
+checks start if there's a listener attached to `onStatusChange`, thus remember
+to cancel unneeded subscriptions.
+
+`checkInterval` (which controls how often a check is made) defaults
+to this value. You can change it if you need to perform checks more often
+or otherwise.
+
+```dart
+static const Duration DEFAULT_INTERVAL = const Duration(seconds: 10);
+...
+Duration checkInterval = DEFAULT_INTERVAL;
+```
+
 ## Usage
 
 Example:
@@ -156,17 +173,53 @@ Example:
 import 'package:data_connection_checker/data_connection_checker.dart';
 
 main() async {
+  // Simple check to see if we have internet
   print("The statement 'this machine is connected to the Internet' is: ");
   print(await DataConnectionChecker().hasConnection);
+  // returns a bool
 
-  // We can also get an enum instead of a bool
-  print(await DataConnectionChecker().connectionStatus);
+  // We can also get an enum value instead of a bool
+  print("Current status: ${await DataConnectionChecker().connectionStatus}");
   // prints either DataConnectionStatus.connected
   // or DataConnectionStatus.disconnected
 
-  print('Results from the last check:');
-  print(DataConnectionChecker().lastTryResults);
+  // This returns the last results from the last call
+  // to either hasConnection or connectionStatus
+  print("Last results: ${DataConnectionChecker().lastTryResults}");
+
+  // actively listen for status updates
+  // this will cause DataConnectionChecker to check periodically
+  // with the interval specified in DataConnectionChecker().checkInterval
+  // until listener.cancel() is called
+  var listener = DataConnectionChecker().onStatusChange.listen((status) {
+    switch (status) {
+      case DataConnectionStatus.connected:
+        print('Data connection is available.');
+        break;
+      case DataConnectionStatus.disconnected:
+        print('You are disconnected from the internet.');
+        break;
+    }
+  });
+
+  // close listener after 30 seconds, so the program doesn't run forever
+  await Future.delayed(Duration(seconds: 30));
+  await listener.cancel();
 }
+```
+
+*Note: Remember to dispose of any listeners,
+when they're not needed to prevent memory leaks,
+e.g. in a* `StatefulWidget`'s *dispose() method*:
+  
+```dart
+...
+@override
+void dispose() {
+  listener.cancel();
+  super.dispose();
+}
+...
 ```
 
 See `example` folder for more examples.

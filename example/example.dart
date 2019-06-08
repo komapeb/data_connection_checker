@@ -15,14 +15,19 @@ main() async {
   // to either hasConnection or connectionStatus
   print("Last results: ${DataConnectionChecker().lastTryResults}");
 
-  var listener = DataConnectionChecker().onStatusChange.listen((data) {
-    print('Status just changed to: $data');
+  // actively listen for status updates
+  var listener = DataConnectionChecker().onStatusChange.listen((status) {
+    switch (status) {
+      case DataConnectionStatus.connected:
+        print('Data connection is available.');
+        break;
+      case DataConnectionStatus.disconnected:
+        print('You are disconnected from the internet.');
+        break;
+    }
   });
 
   // close listener after 30 seconds, so the program doesn't run forever
   await Future.delayed(Duration(seconds: 30));
   await listener.cancel();
-
-  // you should always cancel any active subscriptions
-  // when they're no longer needed
 }
