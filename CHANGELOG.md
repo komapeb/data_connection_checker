@@ -1,3 +1,7 @@
+## 0.3.1
+
+- Fix annoying `dartfmt` warning (perfectionism intensifies)
+
 ## 0.3.0
 
 - Added `onStatusChange` stream, which users of this lib can subscribe to
