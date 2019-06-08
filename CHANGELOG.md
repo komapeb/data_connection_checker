@@ -1,3 +1,7 @@
+## 0.3.2
+
+- Fix status not updated bug
+
 ## 0.3.1
 
 - Fix annoying `dartfmt` warning (perfectionism intensifies)

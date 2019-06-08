@@ -186,12 +186,12 @@ class DataConnectionChecker {
       _statusController.add(currentStatus);
     }
 
-    // update last status
-    _lastStatus = currentStatus;
-
     // start new timer only if there are listeners
     if (!_statusController.hasListener) return;
     _timerHandle = Timer(checkInterval, _maybeEmitStatusUpdate);
+    
+    // update last status
+    _lastStatus = currentStatus;
   }
 
   DataConnectionStatus _lastStatus;
