@@ -5,9 +5,9 @@ library data_connection_checker;
 
 /// TODO list for 0.3.0:
 /// add ability to check periodically
+/// update changelog
 /// document it
 /// provide examples
-/// TODO bump version to 0.3.0 in pubspec.yaml
 
 import 'dart:io';
 import 'dart:async';
@@ -37,7 +37,8 @@ class DataConnectionChecker {
   /// Default interval is 10 seconds
   ///
   /// Interval us the time between automatic checks
-  static const Duration DEFAULT_INTERVAL = const Duration(seconds: 10);
+  // TODO Change this to 10 sec
+  static const Duration DEFAULT_INTERVAL = const Duration(seconds: 1);
 
   /// Predefined reliable addresses. This is opinionated
   /// but should be enough. See https://www.dnsperf.com/#!dns-resolvers
@@ -93,7 +94,19 @@ class DataConnectionChecker {
   /// This is a singleton that can be accessed like a regular constructor
   /// i.e. DataConnectionChecker() always returns the same instance.
   factory DataConnectionChecker() => _instance;
-  DataConnectionChecker._();
+  DataConnectionChecker._() {
+    // immediately perform a check so we know the last status
+    connectionStatus.then((status) => _lastStatus = status);
+
+    // start sending status updates to onStatusChange when there are listeners
+    _statusController.onListen = () {
+      _maybeCheckAndEmitStatusUpdate();
+    };
+    // stop sending status updates when no one is listening
+    _statusController.onCancel = () {
+      _timerHandle?.cancel();
+    };
+  }
   static final DataConnectionChecker _instance = DataConnectionChecker._();
 
   /// Ping a single address.
@@ -149,29 +162,42 @@ class DataConnectionChecker {
         : DataConnectionStatus.disconnected;
   }
 
-  Duration _checkInterval = DEFAULT_INTERVAL;
-  Duration get checkInterval => _checkInterval;
-  set checkInterval(Duration value) {
-    //
+  // TODO Test and document this new code
+  // <new code>
+
+  DataConnectionStatus _lastStatus;
+
+  Duration checkInterval = DEFAULT_INTERVAL;
+
+  Timer _timerHandle;
+
+  _maybeCheckAndEmitStatusUpdate([Timer timer]) async {
+    // just in case
+    _timerHandle?.cancel();
+    timer?.cancel();
+
+    var currentStatus = await connectionStatus;
+
+    // only send status update if last status differs from current
+    // and if someone is actually listening
+    if (_lastStatus != currentStatus && _statusController.hasListener) {
+      _statusController.add(currentStatus);
+    }
+
+    // update last status
+    _lastStatus = currentStatus;
+
+    // start new timer only if there are listeners
+    if (!_statusController.hasListener) return;
+    _timerHandle = Timer(checkInterval, _maybeCheckAndEmitStatusUpdate);
   }
 
-  bool _checkPeriodically = false;
-  bool get checkPeriodically => _checkPeriodically;
-  set checkPeriodically(bool value) {
-    //
-  }
-
-  _performCheck([Timer timer]) {
-    // perform check
-    
-    // if(!_checkPeriodically) return;
-    // run new timer
-  }
-
-  StreamController<DataConnectionStatus> _controller =
+  StreamController<DataConnectionStatus> _statusController =
       StreamController.broadcast();
 
-  Stream<DataConnectionStatus> get onStatusChange => _controller.stream;
+  Stream<DataConnectionStatus> get onStatusChange => _statusController.stream;
+
+  // </new code>
 }
 
 /// This class should be pretty self-explanatory.
