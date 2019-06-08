@@ -235,7 +235,21 @@ class DataConnectionChecker {
   /// }
   /// ...
   /// ```
-  ///
+  /// 
+  /// For as long as there's an attached listener, requests are
+  /// being made with an interval of `checkInterval`. The timer stops
+  /// when an automatic check is currently executed, so this interval
+  /// is a bit longer actually (the maximum would be `checkInterval` +
+  /// the maximum timeout for an address in `addresses`). This is by design
+  /// to prevent multiple automatic calls to `connectionStatus`, which
+  /// would wreck havoc.
+  /// 
+  /// You can, of course, override this behavior by implementing your own
+  /// variation of time-based checks and calling either `connectionStatus`
+  /// or `hasConnection` as many times as you want.
+  /// 
+  /// When all the listeners are removed from `onStatusChange`, the internal
+  /// timer is cancelled and the stream does not emit events.
   Stream<DataConnectionStatus> get onStatusChange => _statusController.stream;
 
   /// Returns true if there are any listeners attached to [onStatusChange]
