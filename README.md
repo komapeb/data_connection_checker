@@ -228,7 +228,7 @@ See `example` folder for more examples.
 
 MIT
 
-Copyright 2019 Kristiyan Mitev
+Copyright 2019 Kristiyan Mitev and [Spirit Navigator][spiritnavigator]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -243,3 +243,4 @@ Please file feature requests and bugs at the [issue tracker][issues_tracker].
 [issues_tracker]: https://github.com/komapeb/data_connection_checker/issues
 [pull_requests]: https://github.com/komapeb/data_connection_checker/pulls
 [install]: https://pub.dev/packages/data_connection_checker#-installing-tab-
+[spiritnavigator]: https://spiritnavigator.com/

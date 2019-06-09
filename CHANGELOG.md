@@ -1,3 +1,8 @@
+## 0.3.3
+
+- Bumping version number, so pub.dev can accept the package
+- Add more docs for `onStatusChange`
+
 ## 0.3.2
 
 - Fix status not updated bug (`_lastStatus` being set incorrectly)

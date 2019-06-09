@@ -205,7 +205,14 @@ class DataConnectionChecker {
       StreamController.broadcast();
 
   /// Subscribe to this stream to receive events whenever the
-  /// [DataConnectionStatus] changes.
+  /// [DataConnectionStatus] changes. When a listener is attached
+  /// a check is performed immediately and the status ([DataConnectionStatus])
+  /// is emitted. After that a timer starts which performs
+  /// checks with the specified interval - [checkInterval].
+  /// Default is [DEFAULT_INTERVAL].
+  ///
+  /// *As long as there's an attached listener, checks are being performed,
+  /// so remember to dispose of the subscriptions when they're no longer needed.*
   ///
   /// Example:
   ///
@@ -235,7 +242,7 @@ class DataConnectionChecker {
   /// }
   /// ...
   /// ```
-  /// 
+  ///
   /// For as long as there's an attached listener, requests are
   /// being made with an interval of `checkInterval`. The timer stops
   /// when an automatic check is currently executed, so this interval
@@ -243,11 +250,11 @@ class DataConnectionChecker {
   /// the maximum timeout for an address in `addresses`). This is by design
   /// to prevent multiple automatic calls to `connectionStatus`, which
   /// would wreck havoc.
-  /// 
+  ///
   /// You can, of course, override this behavior by implementing your own
   /// variation of time-based checks and calling either `connectionStatus`
   /// or `hasConnection` as many times as you want.
-  /// 
+  ///
   /// When all the listeners are removed from `onStatusChange`, the internal
   /// timer is cancelled and the stream does not emit events.
   Stream<DataConnectionStatus> get onStatusChange => _statusController.stream;
