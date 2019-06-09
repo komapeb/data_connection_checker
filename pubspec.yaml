@@ -1,8 +1,10 @@
 name: data_connection_checker
 description: A pure Dart library that checks for internet by opening a socket to a list of specified addresses, each with individual port and timeout. Defaults are provided for convenience.
-version: 0.3.3
-homepage: https://github.com/komapeb/data_connection_checker
-author: Kristiyan Mitev <komapeb@gmail.com>
+version: 0.3.4
+author: Kristiyan Mitev <komapeb@gmail.com>, Spirit Navigator <contact@spiritnavigator.com>
+homepage: https://spiritnavigator.com/
+repository: https://github.com/komapeb/data_connection_checker
+issue_tracker: https://github.com/komapeb/data_connection_checker/issues
 
 environment:
   sdk: '>=2.2.0 <3.0.0'

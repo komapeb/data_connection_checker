@@ -1,4 +1,4 @@
-## 0.3.3
+## 0.3.3 (and 0.3.4)
 
 - Bumping version number, so pub.dev can accept the package
 - Add more docs for `onStatusChange`
