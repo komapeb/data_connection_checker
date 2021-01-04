@@ -5,8 +5,8 @@ import 'package:test/test.dart';
 
 void main() async {
   group('data_connection_checker', () {
-    StreamSubscription<DataConnectionStatus> listener1;
-    StreamSubscription<DataConnectionStatus> listener2;
+    StreamSubscription<DataConnectionStatus>? listener1;
+    StreamSubscription<DataConnectionStatus>? listener2;
 
     tearDown(() {
       // destroy any active listener after each test
@@ -95,7 +95,7 @@ void main() async {
 
     test('''We should have listeners 3''', () async {
       listener1 = DataConnectionChecker().onStatusChange.listen((_) {});
-      await listener1.cancel();
+      await listener1!.cancel();
       listener2 = DataConnectionChecker().onStatusChange.listen((_) {});
       expect(
         DataConnectionChecker().hasListeners,
@@ -105,9 +105,9 @@ void main() async {
 
     test('''We shouldn't have any listeners 2''', () async {
       listener1 = DataConnectionChecker().onStatusChange.listen((_) {});
-      await listener1.cancel();
+      await listener1!.cancel();
       listener2 = DataConnectionChecker().onStatusChange.listen((_) {});
-      await listener2.cancel();
+      await listener2!.cancel();
       expect(
         DataConnectionChecker().hasListeners,
         isFalse,
