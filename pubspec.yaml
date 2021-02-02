@@ -9,7 +9,8 @@ issue_tracker: https://github.com/komapeb/data_connection_checker/issues
 environment:
   sdk: '>=2.12.0-0 <3.0.0'
 
-# dependencies:
+dependencies:
+  universal_io: ^2.0.0-nullsafety.2
 
 dev_dependencies:
   test: ^1.16.0-nullsafety.13

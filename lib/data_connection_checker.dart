@@ -3,8 +3,9 @@
 /// port and timeout. Defaults are provided for convenience.
 library data_connection_checker;
 
-import 'dart:io';
 import 'dart:async';
+
+import 'package:universal_io/io.dart';
 
 /// Represents the status of the data connection.
 /// Returned by [DataConnectionChecker.connectionStatus]
@@ -157,9 +158,7 @@ class DataConnectionChecker {
   /// [DataConnectionStatus.connected].
   /// [DataConnectionStatus.disconnected] otherwise.
   Future<DataConnectionStatus> get connectionStatus async {
-    return await hasConnection
-        ? DataConnectionStatus.connected
-        : DataConnectionStatus.disconnected;
+    return await hasConnection ? DataConnectionStatus.connected : DataConnectionStatus.disconnected;
   }
 
   /// The interval between periodic checks. Periodic checks are
@@ -202,8 +201,7 @@ class DataConnectionChecker {
   Timer? _timerHandle;
 
   // controller for the exposed 'onStatusChange' Stream
-  final StreamController<DataConnectionStatus> _statusController =
-      StreamController.broadcast();
+  final StreamController<DataConnectionStatus> _statusController = StreamController.broadcast();
 
   /// Subscribe to this stream to receive events whenever the
   /// [DataConnectionStatus] changes. When a listener is attached
