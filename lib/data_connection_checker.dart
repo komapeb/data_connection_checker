@@ -6,12 +6,9 @@ library data_connection_checker;
 import 'dart:io';
 import 'dart:async';
 
-/// Represents the status of the data connection.
-/// Returned by [DataConnectionChecker.connectionStatus]
-enum DataConnectionStatus {
-  disconnected,
-  connected,
-}
+part 'status_enum.dart';
+part 'address_check_options.dart';
+part 'address_check_result.dart';
 
 /// This is a singleton that can be accessed like a regular constructor
 /// i.e. DataConnectionChecker() always returns the same instance.
@@ -267,40 +264,4 @@ class DataConnectionChecker {
 
   /// Alias for [hasListeners]
   bool get isActivelyChecking => _statusController.hasListener;
-}
-
-/// This class should be pretty self-explanatory.
-/// If [AddressCheckOptions.port]
-/// or [AddressCheckOptions.timeout] are not specified, they both
-/// default to [DataConnectionChecker.DEFAULT_PORT]
-/// and [DataConnectionChecker.DEFAULT_TIMEOUT]
-/// Also... yeah, I'm not great at naming things.
-class AddressCheckOptions {
-  final InternetAddress address;
-  final int port;
-  final Duration timeout;
-
-  AddressCheckOptions(
-    this.address, {
-    this.port = DataConnectionChecker.DEFAULT_PORT,
-    this.timeout = DataConnectionChecker.DEFAULT_TIMEOUT,
-  });
-
-  @override
-  String toString() => 'AddressCheckOptions($address, $port, $timeout)';
-}
-
-/// Helper class that contains the address options and indicates whether
-/// opening a socket to it succeeded.
-class AddressCheckResult {
-  final AddressCheckOptions options;
-  final bool isSuccess;
-
-  AddressCheckResult(
-    this.options,
-    this.isSuccess,
-  );
-
-  @override
-  String toString() => 'AddressCheckResult($options, $isSuccess)';
 }
