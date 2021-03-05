@@ -26,12 +26,12 @@ class DataConnectionChecker {
   ///
   /// Timeout is the number of seconds before a request is dropped
   /// and an address is considered unreachable
-  static const Duration DEFAULT_TIMEOUT = const Duration(seconds: 10);
+  static const Duration DEFAULT_TIMEOUT = Duration(seconds: 10);
 
   /// Default interval is 10 seconds
   ///
   /// Interval is the time between automatic checks
-  static const Duration DEFAULT_INTERVAL = const Duration(seconds: 10);
+  static const Duration DEFAULT_INTERVAL = Duration(seconds: 10);
 
   /// Predefined reliable addresses. This is opinionated
   /// but should be enough. See https://www.dnsperf.com/#!dns-resolvers
@@ -56,7 +56,8 @@ class DataConnectionChecker {
   /// | 8.8.4.4        | Google     | https://developers.google.com/speed/public-dns/ |
   /// | 208.67.222.222 | OpenDNS    | https://use.opendns.com/                        |
   /// | 208.67.220.220 | OpenDNS    | https://use.opendns.com/                        |
-  static final List<AddressCheckOptions> DEFAULT_ADDRESSES = List.unmodifiable([
+  static final List<AddressCheckOptions> DEFAULT_ADDRESSES =
+      List<AddressCheckOptions>.unmodifiable(<AddressCheckOptions>[
     AddressCheckOptions(
       InternetAddress('1.1.1.1'),
       port: DEFAULT_PORT,
@@ -113,14 +114,14 @@ class DataConnectionChecker {
   Future<AddressCheckResult> isHostReachable(
     AddressCheckOptions options,
   ) async {
-    Socket sock;
+    Socket? sock;
     try {
       sock = await Socket.connect(
         options.address,
         options.port,
         timeout: options.timeout,
       );
-      sock?.destroy();
+      sock.destroy();
       return AddressCheckResult(options, true);
     } catch (e) {
       sock?.destroy();
@@ -140,14 +141,16 @@ class DataConnectionChecker {
   /// we assume an internet connection is available and return `true`.
   /// `false` otherwise.
   Future<bool> get hasConnection async {
-    List<Future<AddressCheckResult>> requests = [];
+    List<Future<AddressCheckResult>> requests = <Future<AddressCheckResult>>[];
 
-    for (var addressOptions in addresses) {
+    for (AddressCheckOptions addressOptions in addresses) {
       requests.add(isHostReachable(addressOptions));
     }
     _lastTryResults = List.unmodifiable(await Future.wait(requests));
 
-    return _lastTryResults.map((result) => result.isSuccess).contains(true);
+    return _lastTryResults
+        .map((AddressCheckResult result) => result.isSuccess)
+        .contains(true);
   }
 
   /// Initiates a request to each address in [addresses].
@@ -174,7 +177,7 @@ class DataConnectionChecker {
   //
   // If there are listeners, a timer is started which runs this function again
   // after the specified time in 'checkInterval'
-  _maybeEmitStatusUpdate([Timer timer]) async {
+  void _maybeEmitStatusUpdate([Timer? timer]) async {
     // just in case
     _timerHandle?.cancel();
     timer?.cancel();
@@ -197,12 +200,12 @@ class DataConnectionChecker {
 
   // _lastStatus should only be set by _maybeEmitStatusUpdate()
   // and the _statusController's.onCancel event handler
-  DataConnectionStatus _lastStatus;
-  Timer _timerHandle;
+  DataConnectionStatus? _lastStatus;
+  Timer? _timerHandle;
 
   // controller for the exposed 'onStatusChange' Stream
-  StreamController<DataConnectionStatus> _statusController =
-      StreamController.broadcast();
+  final StreamController<DataConnectionStatus> _statusController =
+      StreamController<DataConnectionStatus>.broadcast();
 
   /// Subscribe to this stream to receive events whenever the
   /// [DataConnectionStatus] changes. When a listener is attached
@@ -284,7 +287,7 @@ class AddressCheckOptions {
   });
 
   @override
-  String toString() => "AddressCheckOptions($address, $port, $timeout)";
+  String toString() => 'AddressCheckOptions($address, $port, $timeout)';
 }
 
 /// Helper class that contains the address options and indicates whether
@@ -299,5 +302,5 @@ class AddressCheckResult {
   );
 
   @override
-  String toString() => "AddressCheckResult($options, $isSuccess)";
+  String toString() => 'AddressCheckResult($options, $isSuccess)';
 }
