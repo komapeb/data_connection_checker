@@ -140,14 +140,23 @@ class DataConnectionChecker {
   /// we assume an internet connection is available and return `true`.
   /// `false` otherwise.
   Future<bool> get hasConnection async {
-    List<Future<AddressCheckResult>> requests = [];
+    final result = Completer<bool>();
+    final pending = addresses.length;
 
-    for (var addressOptions in addresses) {
-      requests.add(isHostReachable(addressOptions));
+    for (final addressOptions in addresses) {
+      isHostReachable(addressOptions).then((request) {
+        pending -= 1;
+        if (!result.isCompleted) {
+          if (request.isSuccess) {
+            result.complete(true);
+          } else if (pending == 0) {
+            result.complete(false);
+          }
+        }
+      });
     }
-    _lastTryResults = List.unmodifiable(await Future.wait(requests));
 
-    return _lastTryResults.map((result) => result.isSuccess).contains(true);
+    return result.future;
   }
 
   /// Initiates a request to each address in [addresses].
