@@ -141,7 +141,7 @@ class DataConnectionChecker {
   /// `false` otherwise.
   Future<bool> get hasConnection async {
     final result = Completer<bool>();
-    final pending = addresses.length;
+    var pending = addresses.length;
 
     for (final addressOptions in addresses) {
       isHostReachable(addressOptions).then((request) {
