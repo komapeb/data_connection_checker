@@ -1,3 +1,6 @@
+## 0.3.4-nullsafety
+- Add Null Safety
+
 ## 0.3.3 (and 0.3.4)
 
 - Bumping version number, so pub.dev can accept the package

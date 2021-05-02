@@ -113,7 +113,7 @@ class DataConnectionChecker {
   Future<AddressCheckResult> isHostReachable(
     AddressCheckOptions options,
   ) async {
-    Socket sock;
+    Socket? sock;
     try {
       sock = await Socket.connect(
         options.address,
@@ -174,7 +174,7 @@ class DataConnectionChecker {
   //
   // If there are listeners, a timer is started which runs this function again
   // after the specified time in 'checkInterval'
-  _maybeEmitStatusUpdate([Timer timer]) async {
+  _maybeEmitStatusUpdate([Timer? timer]) async {
     // just in case
     _timerHandle?.cancel();
     timer?.cancel();
@@ -197,8 +197,8 @@ class DataConnectionChecker {
 
   // _lastStatus should only be set by _maybeEmitStatusUpdate()
   // and the _statusController's.onCancel event handler
-  DataConnectionStatus _lastStatus;
-  Timer _timerHandle;
+  DataConnectionStatus? _lastStatus;
+  Timer? _timerHandle;
 
   // controller for the exposed 'onStatusChange' Stream
   StreamController<DataConnectionStatus> _statusController =
