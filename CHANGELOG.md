@@ -1,3 +1,6 @@
+## 0.3.5-nullsafety
+- Fix Null Safety
+
 ## 0.3.4-nullsafety
 - Add Null Safety
 
