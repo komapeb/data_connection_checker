@@ -128,12 +128,13 @@ class DataConnectionChecker {
     }
   }
 
-  /// Returns the results from the last check.
+  /// Returns the result from the last check.
+  /// It contains the result of the first successfully completed future
   ///
-  /// The list is populated only when [hasConnection]
+  /// The variable is set only when [hasConnection]
   /// (or [connectionStatus]) is called.
-  List<AddressCheckResult> get lastTryResults => _lastTryResults;
-  List<AddressCheckResult> _lastTryResults = <AddressCheckResult>[];
+  AddressCheckResult get lastTryResult => _lastTryResult;
+  AddressCheckResult _lastTryResult;
 
   /// Initiates a request to each address in [addresses].
   /// If at least one of the addresses is reachable
@@ -145,9 +146,9 @@ class DataConnectionChecker {
     for (var addressOptions in addresses) {
       requests.add(isHostReachable(addressOptions));
     }
-    _lastTryResults = List.unmodifiable(await Future.wait(requests));
+    _lastTryResult = await Future.any<AddressCheckResult>(requests);
 
-    return _lastTryResults.map((result) => result.isSuccess).contains(true);
+    return _lastTryResult.isSuccess;
   }
 
   /// Initiates a request to each address in [addresses].
