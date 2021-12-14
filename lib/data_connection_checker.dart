@@ -57,8 +57,6 @@ class DataConnectionChecker {
   /// | 180.76.76.76   | Baidu      | https://dudns.baidu.com/                        |
   /// | 208.67.222.222 | OpenDNS    | https://use.opendns.com/                        |
   /// | 208.67.220.220 | OpenDNS    | https://use.opendns.com/                        |
-
-
   static final List<AddressCheckOptions> DEFAULT_ADDRESSES = List.unmodifiable([
     AddressCheckOptions(
       InternetAddress('1.1.1.1'),
