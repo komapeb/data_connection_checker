@@ -126,7 +126,7 @@ class DataConnectionChecker {
         options.port,
         timeout: options.timeout,
       );
-      sock?.destroy();
+      sock.destroy();
       return AddressCheckResult(options, true);
     } catch (e) {
       sock?.destroy();
